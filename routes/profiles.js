@@ -13,18 +13,20 @@ router.get("/fetchprofiles", fetchUser, async (req, res) => {
     const profile = await Profiles.find({ user: req.id });
     res.send(profile);
   } catch (error) {
-    res.status(501).send("error  hai fetchnotes mai");
+    res.status(501).send("error  in fetchprofiles");
   }
 });
 
-// Router to create note  http://localhost:3000/api/profiles/createprofile  :: login required
+// Router to create profile  http://localhost:3000/api/profiles/createprofile  :: login required
 router.post(
   "/createprofile",
   fetchUser,
   [
-    body("discription", "Enter disription mininmum 3 character").isLength({min: 3,}),
+    body("discription", "Enter disription mininmum 3 character").isLength({
+      min: 3,
+    }),
     body("title", "Enter title properly").isLength({ min: 3 }),
-    body("game","Enter the game name properly").isLength({min: 3})
+    body("game", "Enter the game name properly").isLength({ min: 3 }),
   ],
   async (req, res) => {
     try {
@@ -33,12 +35,11 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      // create notes of each user seprately
       const profile = await Profiles.create({
-        user: req.id,  // To uniquly add game profile  of a particular user
-        game : req.body.game,
+        user: req.id, // To uniquly add game profile  of a particular user
+        game: req.body.game,
         discription: req.body.discription,
-        title: req.body.title
+        title: req.body.title,
       });
 
       res.json(profile);
@@ -48,28 +49,26 @@ router.post(
   }
 );
 
-// Route to update note  http://localhost:3000/api/profiles/updateprofile :: login required
+// Route to update profile http://localhost:3000/api/profiles/updateprofile :: login required
 
 router.put("/updateprofile/:id", fetchUser, async (req, res) => {
   try {
-    // create new note
     const { discription, title, game } = req.body;
-    const updatedProfile= {};
+    const updatedProfile = {};
     if (discription) {
       updatedProfile.discription = discription;
     }
     if (title) {
       updatedProfile.title = title;
     }
-    if(game){
+    if (game) {
       updatedProfile.game = game;
     }
-
 
     // find profile in the database using unique prfile id
     let profile = await Profiles.findById(req.params.id);
     if (!profile) {
-      return res.send("nhi hai note ");
+      return res.send("profile not present ");
     }
 
     // check if the profile belong to same user using user id and profile id
@@ -79,40 +78,33 @@ router.put("/updateprofile/:id", fetchUser, async (req, res) => {
 
     profile = await Profiles.findByIdAndUpdate(
       req.params.id,
-      { $set: updatedNote },
+      { $set: updatedProfile },
       { new: true }
     );
 
-  
-    res.send("hassan  there is an error");
+    res.send("profile is updated succesfully");
   } catch (error) {
     res.status(501).send("Error in update ");
   }
 });
 
-
-
 // Route to delete a profile login required
 
 router.delete("/deleteprofile/:id", fetchUser, async (req, res) => {
   try {
-  // find profile in the database using unique prfile id
+    // find profile in the database using unique prfile id
     let profile = await Profiles.findById(req.params.id);
     if (!profile) {
       return res.send("profile is not available ");
     }
- 
-    // check if the profile belong to same user using user id and note id
+
+    // check if the profile belong to same user
     if (profile.user.toString() !== req.id) {
       return res.send("wrong delete request");
     }
 
-  
     let ans = await Profiles.findByIdAndRemove(req.params.id);
-    res.send(ans);
-  
-
-
+    res.send("deleted successfully");
   } catch (error) {
     res.status(501).send("Error in delete ");
   }
