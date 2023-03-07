@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 
-// middleware are the functions that runs in b/w when the server get req and give response
+// mi\ddleware are the functions that runs in b/w when the server get req and give response
 app.use(express.json());
 app.use('/api/profiles',profiles);
 app.use('/api/auth', auth)
