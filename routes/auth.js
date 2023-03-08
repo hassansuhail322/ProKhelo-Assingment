@@ -97,5 +97,19 @@ router.get(
   }
 );
 
+// Route to fetch user using token which were given during creation ans login
+router.post("/fetchusers", async (req, res) => {
+  try {
+    // const  userId = req.user.id;  //
+    const userId = req.id;
+
+    let user = await User.find({}).select("-password");
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).send("error in fetch user request");
+  }
+});
+
 
 module.exports = router;
