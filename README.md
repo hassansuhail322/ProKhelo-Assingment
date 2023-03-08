@@ -16,6 +16,8 @@ Route to crete user : http://localhost:3000/api/auth/create   // gives back jwt 
 
 Route to login user : http://localhost:3000/api/auth/login     
 
+Route to fetch all users : http://localhost:3000/api/auth/fetchusers     
+
 
 ->Profiles CRUD  __ Login requrired 
 
