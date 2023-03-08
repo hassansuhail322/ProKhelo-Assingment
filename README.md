@@ -7,15 +7,17 @@ A user can have multiple profiles, the profile contains three parameters i.e
 
 
 
-Authentication
+https://user-images.githubusercontent.com/91627576/223528435-0ebce3ac-1250-4474-a79a-a0360400c5dd.mp4
 
+
+->Authentication
 
 Route to crete user : http://localhost:3000/api/auth/create   // gives back jwt token
 
 Route to login user : http://localhost:3000/api/auth/login     
 
 
-Profiles CRUD  __ Login requrired 
+->Profiles CRUD  __ Login requrired 
 
 
 Route to createprofile : http://localhost:3000/api/profiles/createprofile
